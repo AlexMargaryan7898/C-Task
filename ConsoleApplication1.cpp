@@ -33,8 +33,6 @@ int main() {
 
 	}
 	for (int i = 0; i < 3; i++) {
-
-
 		char name[] = "Vazgen";
 		int result = strcmp(name, obj[i].name);
 

@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 
+#include <numeric>
+
 using namespace std;
 
 
@@ -54,27 +56,27 @@ public:
 		(empl_profession);
 	}
 };
-void EmployeeChecker(int n, vector<Employee*> employees) {
-
-	for (int i = 0; i < n; i++) {
-		Employee employee = *employees[i];
-
-		if (employee.name.compare("Vazgen") == 0 && employee.age >= 25 && employee.profession == Profession::Developer) {
-
-			cout << employee.name << " " << employee.surname << " " << employee.age << " " << "Developer";
+void EmployeeChecker(int n, vector<Employee*> employees, string namefilter, string surnamefilter, int agefilter, string professionfilter) {
+	for (auto i = employees.begin(); i < employees.end(); i++) {
+		Employee employee = **i;
+		Profession professionfilt = professionchecker(professionfilter);
+		if (employee.name.compare(namefilter) == 0 || employee.surname.compare(surnamefilter) == 0 || employee.age == agefilter || employee.profession == professionfilt) {
+			std::cout << employee.name << " " << employee.surname << " " << employee.age << std::endl;
 		}
 	}
 }
 int main() {
 	string n;
-	cout << "Enter Number of Employees - ";
-	cin >> n;
+	std::cout << "Enter Number of Employees - ";
+	std::cin >> n;
+
+
 	bool numOfEmployeeCHecker = true;
 	while (numOfEmployeeCHecker) {
 		for (int j = 0; j < n.size(); j++) {
 			if (n[j] < '0' || n[j] > '9') {
 				std::cout << std::endl << "The Number of Array Should be a Value!  Please Enter Number!";
-				cin >> n;
+				std::cin >> n;
 
 			}
 			else {
@@ -87,14 +89,13 @@ int main() {
 		bool agechecker = true;
 		string age;
 		string name, surname, professionStr;
-		cout << "enter Employee" << " " << i + 1 << "  " << "Name Surname Age Profession ";
+		std::cout << "enter Employee" << " " << i + 1 << "  " << "Name Surname Age Profession ";
 		std::cin >> name >> surname >> age >> professionStr;
 		while (agechecker) {
 			for (int j = 0; j < age.size(); j++) {
 				if (age[j] < '0' || age[j] > '9') {
 					std::cout << std::endl << age << " is not a number please enter number";
-					cin >> age;
-
+					std::cin >> age;
 				}
 				else {
 					agechecker = false;
@@ -104,6 +105,12 @@ int main() {
 		Employee* emp = new Employee(name, surname, stoi(age), professionStr);
 		employees.push_back(emp);
 	}
-	EmployeeChecker(stoi(n), employees);
+
+	string namefilter, professionfilter, surnamefilter;
+	int  agefilter;
+	std::cout << "Search Employees using name or surname or age or profession if you don't ";
+	std::cin >> namefilter >> surnamefilter >> agefilter >> professionfilter;
+
+	EmployeeChecker(stoi(n), employees, namefilter, surnamefilter, agefilter, professionfilter);
 	return 0;
 };
